@@ -1,0 +1,13 @@
+# Target labels
+ tassl
+# Source files and their labels
+/home/xiaobo/myspace/owner/mynetwork/guodong/build/CMakeFiles/tassl
+/home/xiaobo/myspace/owner/mynetwork/guodong/build/CMakeFiles/tassl.rule
+/home/xiaobo/myspace/owner/mynetwork/guodong/build/CMakeFiles/tassl-complete.rule
+/home/xiaobo/myspace/owner/mynetwork/guodong/deps/src/tassl-stamp/tassl-install.rule
+/home/xiaobo/myspace/owner/mynetwork/guodong/deps/src/tassl-stamp/tassl-mkdir.rule
+/home/xiaobo/myspace/owner/mynetwork/guodong/deps/src/tassl-stamp/tassl-download.rule
+/home/xiaobo/myspace/owner/mynetwork/guodong/deps/src/tassl-stamp/tassl-update.rule
+/home/xiaobo/myspace/owner/mynetwork/guodong/deps/src/tassl-stamp/tassl-patch.rule
+/home/xiaobo/myspace/owner/mynetwork/guodong/deps/src/tassl-stamp/tassl-configure.rule
+/home/xiaobo/myspace/owner/mynetwork/guodong/deps/src/tassl-stamp/tassl-build.rule

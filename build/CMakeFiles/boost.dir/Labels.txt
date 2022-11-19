@@ -1,0 +1,13 @@
+# Target labels
+ boost
+# Source files and their labels
+/home/xiaobo/myspace/owner/mynetwork/guodong/build/CMakeFiles/boost
+/home/xiaobo/myspace/owner/mynetwork/guodong/build/CMakeFiles/boost.rule
+/home/xiaobo/myspace/owner/mynetwork/guodong/build/CMakeFiles/boost-complete.rule
+/home/xiaobo/myspace/owner/mynetwork/guodong/deps/src/boost-stamp/boost-install.rule
+/home/xiaobo/myspace/owner/mynetwork/guodong/deps/src/boost-stamp/boost-mkdir.rule
+/home/xiaobo/myspace/owner/mynetwork/guodong/deps/src/boost-stamp/boost-download.rule
+/home/xiaobo/myspace/owner/mynetwork/guodong/deps/src/boost-stamp/boost-update.rule
+/home/xiaobo/myspace/owner/mynetwork/guodong/deps/src/boost-stamp/boost-patch.rule
+/home/xiaobo/myspace/owner/mynetwork/guodong/deps/src/boost-stamp/boost-configure.rule
+/home/xiaobo/myspace/owner/mynetwork/guodong/deps/src/boost-stamp/boost-build.rule

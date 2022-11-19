@@ -67,6 +67,7 @@ gcc.compile.c++ bin.v2/libs/filesystem/build/gcc-9.4.0/release/link-static/threa
 gcc.compile.c++ bin.v2/libs/date_time/build/gcc-9.4.0/release/link-static/threading-multi/gregorian/greg_month.o
 gcc.archive bin.v2/libs/date_time/build/gcc-9.4.0/release/link-static/threading-multi/libboost_date_time.a
 common.copy stage/lib/libboost_date_time.a
+gcc.compile.c++ bin.v2/libs/filesystem/build/gcc-9.4.0/release/link-static/threading-multi/path.o
 gcc.compile.c++ bin.v2/libs/filesystem/build/gcc-9.4.0/release/link-static/threading-multi/operations.o
 libs/filesystem/src/operations.cpp: In function ‘int {anonymous}::readdir_r_simulator(DIR*, dirent*, dirent**)’:
 libs/filesystem/src/operations.cpp:2126:18: warning: ‘int readdir_r(DIR*, dirent*, dirent**)’ is deprecated [-Wdeprecated-declarations]
@@ -111,7 +112,6 @@ In file included from /usr/include/features.h:461,
 /usr/include/dirent.h:189:12: note: declared here
   189 | extern int __REDIRECT (readdir_r,
       |            ^~~~~~~~~~
-gcc.compile.c++ bin.v2/libs/filesystem/build/gcc-9.4.0/release/link-static/threading-multi/path.o
 gcc.compile.c++ bin.v2/libs/filesystem/build/gcc-9.4.0/release/link-static/threading-multi/path_traits.o
 gcc.compile.c++ bin.v2/libs/filesystem/build/gcc-9.4.0/release/link-static/threading-multi/portability.o
 gcc.compile.c++ bin.v2/libs/filesystem/build/gcc-9.4.0/release/link-static/threading-multi/utf8_codecvt_facet.o
@@ -140,8 +140,8 @@ gcc.compile.c++ bin.v2/libs/regex/build/gcc-9.4.0/release/link-static/threading-
 gcc.compile.c++ bin.v2/libs/regex/build/gcc-9.4.0/release/link-static/threading-multi/regex_traits_defaults.o
 gcc.compile.c++ bin.v2/libs/regex/build/gcc-9.4.0/release/link-static/threading-multi/static_mutex.o
 gcc.compile.c++ bin.v2/libs/regex/build/gcc-9.4.0/release/link-static/threading-multi/w32_regex_traits.o
-gcc.compile.c++ bin.v2/libs/regex/build/gcc-9.4.0/release/link-static/threading-multi/wc_regex_traits.o
 gcc.compile.c++ bin.v2/libs/regex/build/gcc-9.4.0/release/link-static/threading-multi/posix_api.o
+gcc.compile.c++ bin.v2/libs/regex/build/gcc-9.4.0/release/link-static/threading-multi/wc_regex_traits.o
 gcc.compile.c++ bin.v2/libs/regex/build/gcc-9.4.0/release/link-static/threading-multi/wide_posix_api.o
 gcc.compile.c++ bin.v2/libs/regex/build/gcc-9.4.0/release/link-static/threading-multi/usinstances.o
 ...on 100th target...
@@ -150,8 +150,8 @@ gcc.archive bin.v2/libs/regex/build/gcc-9.4.0/release/link-static/threading-mult
 common.copy stage/lib/libboost_regex.a
 gcc.compile.c++ bin.v2/libs/thread/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/pthread/once.o
 gcc.compile.c++ bin.v2/libs/thread/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/future.o
-gcc.compile.c++ bin.v2/libs/thread/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/pthread/thread.o
 gcc.compile.c++ bin.v2/libs/log/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/attribute_name.o
+gcc.compile.c++ bin.v2/libs/thread/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/pthread/thread.o
 gcc.archive bin.v2/libs/thread/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/libboost_thread.a
 common.copy stage/lib/libboost_thread.a
 gcc.compile.c++ bin.v2/libs/log/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/attribute_set.o
@@ -163,8 +163,8 @@ gcc.compile.c++ bin.v2/libs/log/build/gcc-9.4.0/release/link-static/threadapi-pt
 gcc.compile.c++ bin.v2/libs/log/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/global_logger_storage.o
 gcc.compile.c++ bin.v2/libs/log/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/named_scope.o
 gcc.compile.c++ bin.v2/libs/log/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/process_id.o
-gcc.compile.c++ bin.v2/libs/log/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/process_name.o
 gcc.compile.c++ bin.v2/libs/log/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/thread_id.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/process_name.o
 gcc.compile.c++ bin.v2/libs/log/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/timer.o
 gcc.compile.c++ bin.v2/libs/log/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/default_attribute_names.o
 gcc.compile.c++ bin.v2/libs/log/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/exceptions.o
@@ -198,56 +198,56 @@ gcc.compile.c++ bin.v2/libs/log/build/gcc-9.4.0/release/link-static/threadapi-pt
 gcc.compile.c++ bin.v2/libs/log/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/setup/init_from_settings.o
 gcc.compile.c++ bin.v2/libs/log/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/setup/filter_parser.o
 gcc.compile.c++ bin.v2/libs/log/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/setup/formatter_parser.o
-gcc.compile.c++ bin.v2/libs/log/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/setup/matches_relation_factory.o
 gcc.compile.c++ bin.v2/libs/log/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/setup/default_filter_factory.o
-gcc.compile.c++ bin.v2/libs/program_options/build/gcc-9.4.0/release/link-static/threading-multi/cmdline.o
+gcc.compile.c++ bin.v2/libs/log/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/setup/matches_relation_factory.o
 gcc.compile.c++ bin.v2/libs/log/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/setup/default_formatter_factory.o
 gcc.archive bin.v2/libs/log/build/gcc-9.4.0/release/link-static/threadapi-pthread/threading-multi/libboost_log_setup.a
 common.copy stage/lib/libboost_log_setup.a
+gcc.compile.c++ bin.v2/libs/program_options/build/gcc-9.4.0/release/link-static/threading-multi/cmdline.o
 gcc.compile.c++ bin.v2/libs/program_options/build/gcc-9.4.0/release/link-static/threading-multi/config_file.o
 gcc.compile.c++ bin.v2/libs/program_options/build/gcc-9.4.0/release/link-static/threading-multi/options_description.o
 gcc.compile.c++ bin.v2/libs/program_options/build/gcc-9.4.0/release/link-static/threading-multi/parsers.o
 gcc.compile.c++ bin.v2/libs/program_options/build/gcc-9.4.0/release/link-static/threading-multi/variables_map.o
-gcc.compile.c++ bin.v2/libs/program_options/build/gcc-9.4.0/release/link-static/threading-multi/value_semantic.o
 gcc.compile.c++ bin.v2/libs/program_options/build/gcc-9.4.0/release/link-static/threading-multi/positional_options.o
 gcc.compile.c++ bin.v2/libs/program_options/build/gcc-9.4.0/release/link-static/threading-multi/utf8_codecvt_facet.o
 gcc.compile.c++ bin.v2/libs/program_options/build/gcc-9.4.0/release/link-static/threading-multi/convert.o
+gcc.compile.c++ bin.v2/libs/program_options/build/gcc-9.4.0/release/link-static/threading-multi/value_semantic.o
 gcc.compile.c++ bin.v2/libs/program_options/build/gcc-9.4.0/release/link-static/threading-multi/winmain.o
+gcc.compile.c++ bin.v2/libs/random/build/gcc-9.4.0/release/link-static/threading-multi/random_device.o
+gcc.archive bin.v2/libs/random/build/gcc-9.4.0/release/link-static/threading-multi/libboost_random.a
+common.copy stage/lib/libboost_random.a
+...on 200th target...
+gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/basic_archive.o
 gcc.compile.c++ bin.v2/libs/program_options/build/gcc-9.4.0/release/link-static/threading-multi/split.o
 gcc.archive bin.v2/libs/program_options/build/gcc-9.4.0/release/link-static/threading-multi/libboost_program_options.a
 common.copy stage/lib/libboost_program_options.a
-gcc.compile.c++ bin.v2/libs/random/build/gcc-9.4.0/release/link-static/threading-multi/random_device.o
-...on 200th target...
-gcc.archive bin.v2/libs/random/build/gcc-9.4.0/release/link-static/threading-multi/libboost_random.a
-common.copy stage/lib/libboost_random.a
-gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/basic_archive.o
-gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/basic_iserializer.o
 gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/basic_iarchive.o
+gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/basic_iserializer.o
 gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/basic_oserializer.o
-gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/basic_oarchive.o
 gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/basic_pointer_iserializer.o
 gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/basic_pointer_oserializer.o
 gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/basic_serializer_map.o
+gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/basic_oarchive.o
 gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/basic_text_iprimitive.o
 gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/basic_xml_archive.o
 gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/basic_text_oprimitive.o
-gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/binary_oarchive.o
 gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/binary_iarchive.o
+gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/binary_oarchive.o
 gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/extended_type_info.o
-gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/extended_type_info_no_rtti.o
 gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/extended_type_info_typeid.o
+gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/extended_type_info_no_rtti.o
+gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/polymorphic_iarchive.o
 gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/polymorphic_oarchive.o
 gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/stl_port.o
-gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/polymorphic_iarchive.o
 gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/text_iarchive.o
-gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/void_cast.o
 gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/text_oarchive.o
 gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/archive_exception.o
+gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/void_cast.o
 gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/xml_iarchive.o
 gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/xml_oarchive.o
 gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/xml_archive_exception.o
-gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/xml_grammar.o
 gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/codecvt_null.o
+gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/xml_grammar.o
 gcc.compile.c++ bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/utf8_codecvt_facet.o
 gcc.archive bin.v2/libs/serialization/build/gcc-9.4.0/release/link-static/threading-multi/libboost_serialization.a
 common.copy stage/lib/libboost_serialization.a
@@ -301,6 +301,6 @@ mklink-or-dir boost/chrono/stopwatches
 gcc.compile.c++ bin.v2/libs/test/build/gcc-9.4.0/release/link-static/threading-multi/unit_test_parameters.o
 gcc.archive bin.v2/libs/test/build/gcc-9.4.0/release/link-static/threading-multi/libboost_test_exec_monitor.a
 gcc.archive bin.v2/libs/test/build/gcc-9.4.0/release/link-static/threading-multi/libboost_unit_test_framework.a
-common.copy stage/lib/libboost_unit_test_framework.a
 common.copy stage/lib/libboost_test_exec_monitor.a
+common.copy stage/lib/libboost_unit_test_framework.a
 ...updated 295 targets...

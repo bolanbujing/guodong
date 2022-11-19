@@ -9,7 +9,7 @@ endif ()
 
 set(TASSL_BUILD_COMMAND make)
 ExternalProject_Add(tassl
-        PREFIX ${CMAKE_SOURCE_DIR}/build/deps
+        PREFIX ${CMAKE_SOURCE_DIR}/deps
         DOWNLOAD_NAME tassl_1.0.2o-ccdfc64c.tar.gz
         DOWNLOAD_NO_PROGRESS 1
         URL https://github.com/jntass/TASSL/archive/ccdfc64c5f56988f76abc0390a12ed9865bc49e9.tar.gz

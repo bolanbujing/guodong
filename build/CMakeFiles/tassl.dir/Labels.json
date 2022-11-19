@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/xiaobo/myspace/owner/mynetwork/guodong/build/CMakeFiles/tassl"
+		},
+		{
+			"file" : "/home/xiaobo/myspace/owner/mynetwork/guodong/build/CMakeFiles/tassl.rule"
+		},
+		{
+			"file" : "/home/xiaobo/myspace/owner/mynetwork/guodong/build/CMakeFiles/tassl-complete.rule"
+		},
+		{
+			"file" : "/home/xiaobo/myspace/owner/mynetwork/guodong/deps/src/tassl-stamp/tassl-install.rule"
+		},
+		{
+			"file" : "/home/xiaobo/myspace/owner/mynetwork/guodong/deps/src/tassl-stamp/tassl-mkdir.rule"
+		},
+		{
+			"file" : "/home/xiaobo/myspace/owner/mynetwork/guodong/deps/src/tassl-stamp/tassl-download.rule"
+		},
+		{
+			"file" : "/home/xiaobo/myspace/owner/mynetwork/guodong/deps/src/tassl-stamp/tassl-update.rule"
+		},
+		{
+			"file" : "/home/xiaobo/myspace/owner/mynetwork/guodong/deps/src/tassl-stamp/tassl-patch.rule"
+		},
+		{
+			"file" : "/home/xiaobo/myspace/owner/mynetwork/guodong/deps/src/tassl-stamp/tassl-configure.rule"
+		},
+		{
+			"file" : "/home/xiaobo/myspace/owner/mynetwork/guodong/deps/src/tassl-stamp/tassl-build.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"tassl"
+		],
+		"name" : "tassl"
+	}
+}
