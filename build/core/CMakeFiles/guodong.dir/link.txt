@@ -1,2 +1,0 @@
-/usr/bin/ar qc libguodong.a  CMakeFiles/guodong.dir/log.cpp.o CMakeFiles/guodong.dir/message.cpp.o CMakeFiles/guodong.dir/tcp_client.cpp.o CMakeFiles/guodong.dir/tcp_server.cpp.o CMakeFiles/guodong.dir/tcp_session.cpp.o
-/usr/bin/ranlib libguodong.a
