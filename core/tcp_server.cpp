@@ -5,25 +5,39 @@
 
 using namespace guodong;
 
+std::atomic<uint64_t> seq_{0};
+
 TcpServer::TcpServer(boost::asio::io_context& io_context)
     : io_context_(io_context)
-    , acceptor_(io_context, tcp::endpoint(tcp::v4(), 9000)) {
-    request_thread_pool_ = std::make_shared<ThreadPool>("request", 8);
-    response_thread_pool_ = std::make_shared<ThreadPool>("response", 4);
+    , init_(false) {}
+
+TcpServer::~TcpServer() {
+    LOG(DEBUG) << "tcp server destructor !";
+}
+
+bool TcpServer::Init(int port, int thread_for_request, int thread_for_response) {
+    if (init_) {
+        LOG(ERROR) << "tcpserver already initialized";
+        return false;
+    }
+    if (port <= 0) {
+        LOG(ERROR) << LOG_KV("port : ", port);
+        return false;
+    }
+    request_thread_pool_ = std::make_shared<ThreadPool>("request", thread_for_request);
+    response_thread_pool_ = std::make_shared<ThreadPool>("response", thread_for_response);
+    acceptor_ = std::make_shared<boost::asio::ip::tcp::acceptor>(io_context_, tcp::endpoint(tcp::v4(), port));
     startAccept();
+    init_ = true;
+    return true;
 }
 
 void TcpServer::startAccept() {
     auto session = std::make_shared<TcpSession>(io_context_);
     std::cout << "start_accept" << std::endl;
-    acceptor_.async_accept(*(session->Socket()),
+    acceptor_->async_accept(*(session->Socket()),
                            boost::bind(&TcpServer::handleAccept, this, session, boost::asio::placeholders::error));
     std::cout << "end_accept" << std::endl;
-}
-
-void TcpServer::onConnect(TcpSession::Ptr session) {
-    LOG(TRACE) << LOG_DESC("connect success !") << LOG_KV("remote ip = ", session->GetRemoteIp())
-               << LOG_KV("remote port = ", session->GetRemotePort());
 }
 
 void TcpServer::handleAccept(TcpSession::Ptr session, const boost::system::error_code& error) {
@@ -33,11 +47,12 @@ void TcpServer::handleAccept(TcpSession::Ptr session, const boost::system::error
         session->SetRemoteIp(remoteEndpoint.address().to_string());
         session->SetRemotePort(remoteEndpoint.port());
         std::function<void(TcpSession::Ptr, int, Message::Ptr)> fp = std::bind(
-            &TcpServer::onClientRequest, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+            &TcpServer::OnMessageRequest, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
         session->SetMessageHandler(fp);
         session->SetBusinessThread(request_thread_pool_, response_thread_pool_);
         session->SetActive();
-        onConnect(session);
+        session_map_[seq_++] = session;
+        OnConnect(session);
         session->StartRead();
         std::cout << "handle_accept" << std::endl;
     } else {
@@ -46,9 +61,10 @@ void TcpServer::handleAccept(TcpSession::Ptr session, const boost::system::error
     startAccept();
 }
 
-void TcpServer::onClientRequest(TcpSession::Ptr, int error, Message::Ptr message) {
-    int16_t type = message->Header().type_;
-    int32_t askid = message->Header().askid_;
-    std::string content(message->Body().begin(), message->Body().end());
-    LOG(TRACE) << LOG_KV("error", error) << LOG_KV("body", content) << LOG_KV("type", type) << LOG_KV("askid", askid);
+void TcpServer::Run() {
+    if (!init_) {
+        LOG(ERROR) << LOG_DESC("init_ == false");
+        return;
+    }
+    io_context_.run();
 }

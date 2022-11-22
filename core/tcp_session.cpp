@@ -88,8 +88,7 @@ void TcpSession::onMessage(int, Message::Ptr message) {
     }
 }
 
-void TcpSession::AsyncSendMessage(Message::Ptr request, std::function<void(int, Message::Ptr)> callback,
-                                  uint32_t timeout) {
+void TcpSession::AsyncSendMessage(Message::Ptr request, CallbackType callback, uint32_t timeout) {
     try {
         if (!actived_) {
             if (callback) {
@@ -100,7 +99,7 @@ void TcpSession::AsyncSendMessage(Message::Ptr request, std::function<void(int, 
 
         ResponseCallback::Ptr responseCallback = std::make_shared<ResponseCallback>();
         if (callback) {
-            responseCallback->askid_ = request->Header().askid_;
+            responseCallback->askid_ = request->AskId();
             responseCallback->callback = callback;
             if (timeout > 0) {
                 std::shared_ptr<boost::asio::deadline_timer> timeoutHandler =
@@ -210,7 +209,8 @@ void TcpSession::onWrite(const boost::system::error_code &error, std::shared_ptr
         // updateIdleTimer();
         if (error) {
             LOG(ERROR) << LOG_DESC("Write error") << LOG_KV("message", error.message());
-            // disconnect(ChannelException(-1, "Write error, disconnect"));
+            disconnect(-1);
+            return;
         }
         writing_ = false;
         startWrite();
@@ -258,21 +258,21 @@ void TcpSession::disconnect(int ecode) {
 
             // auto socket = socket_;
             // force close socket after 30 seconds
-            auto socket = socket_;
-            auto shutdownTimer =
-                std::make_shared<boost::asio::deadline_timer>(context_, boost::posix_time::milliseconds(30000));
-            shutdownTimer->async_wait([socket](const boost::system::error_code &error) {
-                if (error && error != boost::asio::error::operation_aborted) {
-                    LOG(WARNING) << "channel shutdown timer error" << LOG_KV("message", error.message());
-                    return;
-                }
+            // auto socket = socket_;
+            // auto shutdownTimer =
+            //     std::make_shared<boost::asio::deadline_timer>(context_, boost::posix_time::milliseconds(30000));
+            // shutdownTimer->async_wait([socket](const boost::system::error_code &error) {
+            //     if (error && error != boost::asio::error::operation_aborted) {
+            //         LOG(WARNING) << "channel shutdown timer error" << LOG_KV("message", error.message());
+            //         return;
+            //     }
 
-                if (socket->is_open()) {
-                    LOG(WARNING) << "channel shutdown timeout force close";
-                    socket->close();
-                }
-            });
-            socket_->shutdown(boost::asio::ip::tcp::socket::shutdown_send);
+            //     if (socket->is_open()) {
+            //         LOG(WARNING) << "channel shutdown timeout force close";
+            //         socket->close();
+            //     }
+            // });
+            socket_->shutdown(boost::asio::ip::tcp::socket::shutdown_both);
             // socket_->shutdown([socket, shutdownTimer](const boost::system::error_code &error) {
             //     if (error) {
             //         LOG(WARNING) << "async_shutdown" << LOG_KV("message", error.message());
@@ -293,13 +293,12 @@ void TcpSession::disconnect(int ecode) {
 void TcpSession::InitResolver() { resolver_ = std::make_shared<tcp::resolver>(context_); }
 
 bool TcpSession::AsyncConnect(std::string ip, int port,
-                              boost::function<void(const boost::system::error_code&)> handler) {
+                              boost::function<void(const boost::system::error_code &)> handler) {
     if (!resolver_) {
         LOG(ERROR) << "resolver not init!";
         return false;
     }
-    auto connect_timer =
-        std::make_shared<boost::asio::deadline_timer>(context_, boost::posix_time::milliseconds(1000));
+    auto connect_timer = std::make_shared<boost::asio::deadline_timer>(context_, boost::posix_time::milliseconds(1000));
     auto socket = socket_;
     connect_timer->async_wait([=](const boost::system::error_code &error) {
         /// return when cancel has been called
@@ -329,6 +328,8 @@ bool TcpSession::AsyncConnect(std::string ip, int port,
                              });
     return true;
 }
+
+Message::Ptr TcpSession::BuildMessage() { return message_factory_.BuildMessage(); }
 
 // void TcpSession::updateIdleTimer() {
 //   if (!actived_) {

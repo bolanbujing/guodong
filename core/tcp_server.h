@@ -13,17 +13,23 @@ namespace guodong {
 class TcpServer {
 public:
     TcpServer(boost::asio::io_context& io_context);
-
+    virtual ~TcpServer();
+    virtual void OnConnect(TcpSession::Ptr session) = 0;
+    virtual void OnMessageRequest(TcpSession::Ptr, int, Message::Ptr) = 0;
+    bool Init(int port, int thread_for_request = 8, int thread_for_response = 4);
+    void Run();
 private:
     void startAccept();
-    void onConnect(TcpSession::Ptr session);
-    void onClientRequest(TcpSession::Ptr, int, Message::Ptr);
+    // void onConnect(TcpSession::Ptr session);
+    // void onMessageRequest(TcpSession::Ptr, int, Message::Ptr);
 
     void handleAccept(TcpSession::Ptr session, const boost::system::error_code& error);
     boost::asio::io_context& io_context_;
-    boost::asio::ip::tcp::acceptor acceptor_;
+    std::shared_ptr<boost::asio::ip::tcp::acceptor> acceptor_;
     ThreadPool::Ptr request_thread_pool_;
     ThreadPool::Ptr response_thread_pool_;
+    std::map<uint64_t, TcpSession::Ptr> session_map_; 
+    bool init_;
 };
 
 }  // namespace guodong

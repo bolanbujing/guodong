@@ -11,9 +11,10 @@ using boost::asio::ip::tcp;
 namespace guodong {
 class TcpSession : public std::enable_shared_from_this<TcpSession> {
 public:
-    typedef std::shared_ptr<TcpSession> Ptr;
+    using Ptr = std::shared_ptr<TcpSession>;
     using ReadGuard = boost::shared_lock<boost::shared_mutex>;
     using WriteGuard = boost::unique_lock<boost::shared_mutex>;
+    using CallbackType = std::function<void(int, Message::Ptr)>;
     explicit TcpSession(boost::asio::io_context& io_context);
     virtual ~TcpSession();
     std::shared_ptr<tcp::socket> Socket();
@@ -23,6 +24,7 @@ public:
     void SetMessageHandler(std::function<void(TcpSession::Ptr, int, Message::Ptr)> message_handler) {
         message_handler_ = message_handler;
     }
+    Message::Ptr BuildMessage();
 
     void SetBusinessThread(ThreadPool::Ptr request_thread, ThreadPool::Ptr response_thread) {
         request_thread_ = request_thread;

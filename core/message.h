@@ -7,10 +7,10 @@ namespace guodong {
 
 #pragma pack(1)
 struct MessageHeader {
-    int32_t length_;
-    int16_t type_;
-    int32_t askid_;
-    int32_t message_id_;
+    int32_t length;
+    int16_t type;
+    int32_t askid;
+    int32_t message_id;
 };
 #pragma pack()
 
@@ -18,9 +18,19 @@ class Message {
 public:
     typedef std::shared_ptr<Message> Ptr;
     virtual ~Message();
-    int32_t AskId() { return header_.askid_; }
     MessageHeader Header() { return header_; }
+    int16_t Type() { return header_.type; }
+    void SetType(int16_t type) { header_.type = type; }
+    int32_t AskId() { return header_.askid; }
+    void SetAskId(int32_t askid) { header_.askid = askid; }
+    int32_t Length() { return header_.length; }
+    void SetLength(int32_t len) { header_.length = len; }
+    int32_t MessageId() { return header_.message_id; }
+    void SetMessageId(int32_t messageid) { header_.message_id = messageid; }
     std::vector<uint8_t> Body() { return body_; }
+    void SetBody(const std::vector<uint8_t>& buff) {
+        body_.insert(body_.end(), buff.begin(), buff.end());
+    }
     int32_t Decode(uint8_t* data, int32_t length);
     void Encode(std::vector<uint8_t>& buffer);
 
