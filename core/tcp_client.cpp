@@ -2,8 +2,13 @@
 #include "tcp_client.h"
 
 namespace guodong {
-TcpClient::TcpClient(boost::asio::io_context& io_context)
-    : io_context_(io_context) {}
+
+TcpClient::TcpClient() : io_work_(io_context_) {
+    std::thread t([&](){
+        io_context_.run();
+    });
+    t.detach();
+}
 
 void TcpClient::AsyncConnect(std::string ip, int port) {
     session_ = std::make_shared<TcpSession>(io_context_);
@@ -13,7 +18,8 @@ void TcpClient::AsyncConnect(std::string ip, int port) {
     session_->AsyncConnect(ip, port, handler);
 }
 
-// void TcpClient::onConnect(const boost::system::error_code& ec) {
+ void TcpClient::OnConnect(const boost::system::error_code&) {
+    session_->SetActive();
 //     if (ec) {
 //         LOG(ERROR) << LOG_DESC("TCP Connection refused by node") << LOG_KV("message", ec.message());
 
@@ -34,9 +40,9 @@ void TcpClient::AsyncConnect(std::string ip, int port) {
 //         //     endpointPublicKey,
 //         //                 callback, _nodeIPEndpoint, connect_timer));
 //     }
-// }
+ }
 
-void TcpClient::AsyncSendMessage(Message::Ptr message) {
+void TcpClient::AsyncSendMessage(Message::Ptr message) noexcept {
     session_->AsyncSendMessage(message, TcpSession::CallbackType(), 0);
 }
 

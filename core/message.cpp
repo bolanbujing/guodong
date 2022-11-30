@@ -14,9 +14,10 @@ int32_t Message::Decode(uint8_t* data, int32_t length) {
         return 0;
     } else {
         auto len = *((int32_t*)data);
-        if (length < len) {
+        if (length < header_size_ + len) {
             return 0;
         }
+        LOG(INFO) << LOG_KV("message content length = ", length);
         header_.length = len;
         header_.type = *((int16_t*)(data + 4));
         header_.askid = *((int32_t*)(data + 6));

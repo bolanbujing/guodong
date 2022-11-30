@@ -21,6 +21,7 @@ void TcpSession::StartRead() {
 
 void TcpSession::onRead(const boost::system::error_code &error, size_t bytes_transferred) {
     if (!error) {
+        LOG(INFO) << LOG_KV("bytes_transferred", bytes_transferred) << LOG_KV("content", recv_buffer_);
         recv_protocol_buffer_.insert(recv_protocol_buffer_.end(), recv_buffer_, recv_buffer_ + bytes_transferred);
         while (true) {
             auto message = message_factory_.BuildMessage();
@@ -32,13 +33,13 @@ void TcpSession::onRead(const boost::system::error_code &error, size_t bytes_tra
                 StartRead();
                 break;
             } else if (result < 0) {
-                LOG(ERROR) << LOG_KV("onRead Protocol parser error = ", result);
+                LOG(ERROR) << LOG_KV("onRead Protocol parser error", result);
                 disconnect(-1);
                 break;
             }
         }
     } else {
-        LOG(ERROR) << LOG_KV("onRead fail, error = ", error.message());
+        LOG(ERROR) << LOG_KV("onRead fail, error", error.message());
         if (actived_) {
             disconnect(-1);
         }
@@ -91,6 +92,7 @@ void TcpSession::onMessage(int, Message::Ptr message) {
 void TcpSession::AsyncSendMessage(Message::Ptr request, CallbackType callback, uint32_t timeout) {
     try {
         if (!actived_) {
+            LOG(INFO) << "RRRRRRRRRRRRReee";
             if (callback) {
                 callback(-3, Message::Ptr());
             }
@@ -110,7 +112,6 @@ void TcpSession::AsyncSendMessage(Message::Ptr request, CallbackType callback, u
             }
             insertResponseCallback(responseCallback->askid_, responseCallback);
         }
-
         std::shared_ptr<std::vector<uint8_t>> buffer = std::make_shared<std::vector<uint8_t>>();
         request->Encode(*buffer);
         writeBuffer(buffer);
@@ -166,7 +167,6 @@ void TcpSession::startWrite() {
     if (writing_) {
         return;
     }
-
     if (!send_buffer_.empty()) {
         writing_ = true;
         auto buffer = send_buffer_.front();
