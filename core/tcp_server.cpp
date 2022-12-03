@@ -7,13 +7,11 @@ using namespace guodong;
 
 std::atomic<uint64_t> seq_{0};
 
-TcpServer::TcpServer(boost::asio::io_context& io_context)
-    : io_context_(io_context)
+TcpServer::TcpServer()
+    : io_work_(io_context_)
     , init_(false) {}
 
-TcpServer::~TcpServer() {
-    LOG(DEBUG) << "tcp server destructor !";
-}
+TcpServer::~TcpServer() { LOG(DEBUG) << "tcp server destructor !"; }
 
 bool TcpServer::Init(int port, int thread_for_request, int thread_for_response) {
     if (init_) {
@@ -36,7 +34,7 @@ void TcpServer::startAccept() {
     auto session = std::make_shared<TcpSession>(io_context_);
     std::cout << "start_accept" << std::endl;
     acceptor_->async_accept(*(session->Socket()),
-                           boost::bind(&TcpServer::handleAccept, this, session, boost::asio::placeholders::error));
+                            boost::bind(&TcpServer::handleAccept, this, session, boost::asio::placeholders::error));
     std::cout << "end_accept" << std::endl;
 }
 

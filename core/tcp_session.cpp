@@ -4,7 +4,9 @@ namespace guodong {
 
 TcpSession::TcpSession(boost::asio::io_context &io_context)
     : context_(io_context)
-    , socket_(std::make_shared<tcp::socket>(io_context)) {}
+    , socket_(std::make_shared<tcp::socket>(io_context)) {
+    memset(recv_buffer_, 0, sizeof(recv_buffer_));
+}
 
 TcpSession::~TcpSession() { LOG(INFO) << " ~TcpSession !!!!!!"; }
 
@@ -21,7 +23,7 @@ void TcpSession::StartRead() {
 
 void TcpSession::onRead(const boost::system::error_code &error, size_t bytes_transferred) {
     if (!error) {
-        LOG(INFO) << LOG_KV("bytes_transferred", bytes_transferred) << LOG_KV("content", recv_buffer_);
+        LOG(INFO) << LOG_KV("bytes_transferred", bytes_transferred) << LOG_KV("content", recv_buffer_[20]);
         recv_protocol_buffer_.insert(recv_protocol_buffer_.end(), recv_buffer_, recv_buffer_ + bytes_transferred);
         while (true) {
             auto message = message_factory_.BuildMessage();
@@ -52,6 +54,7 @@ void TcpSession::onMessage(int, Message::Ptr message) {
             LOG(ERROR) << LOG_DESC("onMessage ChannelSession inactived");
             return;
         }
+        LOG(INFO) << LOG_KV("askid", message->AskId());
         auto response_callback = findResponseCallbackBySeq(message->AskId());
         if (response_callback != nullptr) {
             if (response_callback->timeoutHandler) {
@@ -59,10 +62,12 @@ void TcpSession::onMessage(int, Message::Ptr message) {
             }
 
             if (response_callback->callback) {
-                response_thread_->enqueue([=]() {
+                if (bserver_) {
+                    response_thread_->enqueue([=]() { response_callback->callback(0, message); });
+                } else {
                     response_callback->callback(0, message);
-                    eraseResponseCallbackBySeq(message->AskId());
-                });
+                }
+                eraseResponseCallbackBySeq(message->AskId());
             } else {
                 LOG(ERROR) << LOG_DESC("onMessage Callback empty");
                 eraseResponseCallbackBySeq(message->AskId());
@@ -182,6 +187,8 @@ void TcpSession::startWrite() {
                                                  s->onWrite(error, buffer, bytes_transferred);
                                              }
                                          });
+            } else {
+                LOG(ERROR) << "session have destructor!";
             }
         });
     } else {
@@ -290,7 +297,10 @@ void TcpSession::disconnect(int ecode) {
     }
 }
 
-void TcpSession::InitResolver() { resolver_ = std::make_shared<tcp::resolver>(context_); }
+void TcpSession::InitResolver() {
+    resolver_ = std::make_shared<tcp::resolver>(context_);
+    bserver_ = false;
+}
 
 bool TcpSession::AsyncConnect(std::string ip, int port,
                               boost::function<void(const boost::system::error_code &)> handler) {

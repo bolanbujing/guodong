@@ -16,7 +16,8 @@ struct MessageHeader {
 
 class Message {
 public:
-    typedef std::shared_ptr<Message> Ptr;
+    using Ptr = std::shared_ptr<Message>;
+    Message();
     virtual ~Message();
     MessageHeader Header() { return header_; }
     int16_t Type() { return header_.type; }
@@ -27,9 +28,10 @@ public:
     void SetLength(int32_t len) { header_.length = len; }
     int32_t MessageId() { return header_.message_id; }
     void SetMessageId(int32_t messageid) { header_.message_id = messageid; }
-    std::vector<uint8_t> Body() { return body_; }
+    std::shared_ptr<std::vector<uint8_t>> Body() { return body_; }
     void SetBody(const std::vector<uint8_t>& buff) {
-        body_.insert(body_.end(), buff.begin(), buff.end());
+        body_->insert(body_->end(), buff.begin(), buff.end());
+        header_.length = body_->size();
     }
     int32_t Decode(uint8_t* data, int32_t length);
     void Encode(std::vector<uint8_t>& buffer);
@@ -37,7 +39,7 @@ public:
 private:
     const int32_t header_size_ = 14;
     MessageHeader header_;
-    std::vector<uint8_t> body_;
+    std::shared_ptr<std::vector<uint8_t>> body_;
 };
 
 class MessageFactory {

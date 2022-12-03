@@ -4,7 +4,7 @@ using namespace guodong;
 
 class EchoServer : public TcpServer {
 public:
-    EchoServer(boost::asio::io_context& context) : TcpServer(context){}
+    EchoServer() : TcpServer() {}
     void OnConnect(TcpSession::Ptr session) override {
         LOG(TRACE) << LOG_DESC("connect success !") << LOG_KV("remote ip = ", session->GetRemoteIp())
                    << LOG_KV("remote port = ", session->GetRemotePort());
@@ -16,24 +16,22 @@ public:
         }
         auto type = message->Type();
         auto askid = message->AskId();
-        std::string content(message->Body().begin(), message->Body().end());
+        auto body = message->Body();
+        std::cout << "rrrrr = " << body->size() << std::endl;
+        std::string content(body->begin(), body->end());
         LOG(TRACE) << LOG_KV("error", error) << LOG_KV("body", content) << LOG_KV("type", type)
                    << LOG_KV("askid", askid);
         auto new_message = session->BuildMessage();
         new_message->SetType(type);
         new_message->SetAskId(askid);
         new_message->SetMessageId(message->MessageId());
-        new_message->SetBody(message->Body());
+        new_message->SetBody(*(message->Body()));
         session->AsyncSendMessage(new_message, TcpSession::CallbackType(), 0);
     }
- private:
-    EchoServer(const EchoServer& es) = delete;
-    EchoServer& operator=(const EchoServer& es) = delete;
 };
 
 int main() {
-    boost::asio::io_context io_context;
-    EchoServer server(io_context);
+    EchoServer server;
     if (!server.Init(9000)) {
         return 0;
     }

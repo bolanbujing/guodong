@@ -13,8 +13,18 @@ public:
         LOG(INFO) << LOG_DESC("connect success!") << LOG_KV("ecode=", ec);
     }
     void OnMessage(TcpSession::Ptr, int ecode, Message::Ptr message) override {
-        std::string content(message->Body().begin(), message->Body().end());
+        auto body = message->Body();
+        std::string content(body->begin(), body->end());
         LOG(DEBUG) << LOG_DESC(content) << LOG_KV("ecode=", ecode);
+    }
+
+    void CallBackMessage(int ecode, Message::Ptr message) {
+        if (message) {
+            auto body = message->Body();
+            std::cout << "ssss = " << body->size() << std::endl;
+            std::string content(body->begin(), body->end());
+            LOG(DEBUG) << LOG_DESC(content) << LOG_KV("ecode=", ecode);
+        }
     }
 };
 
@@ -32,6 +42,6 @@ int main() {
         std::vector<uint8_t> vec(line.begin(), line.end());
         std::cout << "size = " << vec.size() << std::endl;
         new_message->SetBody(vec);
-        client.AsyncSendMessage(new_message);
+        client.AsyncSendMessage(new_message, std::bind(&EchoClient::CallBackMessage, &client, std::placeholders::_1, std::placeholders::_2), 1000);
     }
 }

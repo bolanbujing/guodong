@@ -20,6 +20,7 @@ void TcpClient::AsyncConnect(std::string ip, int port) {
 
  void TcpClient::OnConnect(const boost::system::error_code&) {
     session_->SetActive();
+    session_->StartRead();
 //     if (ec) {
 //         LOG(ERROR) << LOG_DESC("TCP Connection refused by node") << LOG_KV("message", ec.message());
 
@@ -44,6 +45,10 @@ void TcpClient::AsyncConnect(std::string ip, int port) {
 
 void TcpClient::AsyncSendMessage(Message::Ptr message) noexcept {
     session_->AsyncSendMessage(message, TcpSession::CallbackType(), 0);
+}
+
+void TcpClient::AsyncSendMessage(Message::Ptr message, TcpSession::CallbackType callback, uint32_t millsecond) noexcept {
+    session_->AsyncSendMessage(message, callback, millsecond);
 }
 
 }  // namespace guodong

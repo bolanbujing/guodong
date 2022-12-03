@@ -42,11 +42,13 @@ public:
     void SetActive() { actived_ = true; }
 
     bool GetActive() { return actived_; }
+
+    void SetClientSessionFlag(bool flag) { bserver_ = flag; }
+
     void AsyncSendMessage(Message::Ptr request, std::function<void(int, Message::Ptr)> callback, uint32_t timeout);
 
     void InitResolver();
-    bool AsyncConnect(std::string ip, int port,
-                              boost::function<void(const boost::system::error_code&)> handler);
+    bool AsyncConnect(std::string ip, int port, boost::function<void(const boost::system::error_code&)> handler);
     const int32_t buffer_length_ = 4096;
 
 private:
@@ -94,6 +96,7 @@ private:
     std::shared_ptr<tcp::resolver> resolver_;
     std::function<void(TcpSession::Ptr, int, Message::Ptr)> message_handler_;
     std::shared_ptr<tcp::socket> socket_;
+    bool bserver_ = true;
     uint8_t recv_buffer_[4096];
     std::vector<uint8_t> recv_protocol_buffer_;
     std::queue<std::shared_ptr<std::vector<uint8_t>>> send_buffer_;
