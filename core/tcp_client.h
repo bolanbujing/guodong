@@ -3,6 +3,7 @@
 #include <string>
 #include <boost/asio.hpp>
 #include "tcp_session.h"
+#include "noncopyable.h"
 
 namespace guodong {
 using boost::asio::ip::tcp;

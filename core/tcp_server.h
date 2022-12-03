@@ -7,6 +7,7 @@
 #include <boost/shared_ptr.hpp>
 #include "tcp_session.h"
 #include "thread_pool.h"
+#include "noncopyable.h"
 
 namespace guodong {
 

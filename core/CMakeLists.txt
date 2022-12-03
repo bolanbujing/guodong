@@ -1,6 +1,5 @@
-aux_source_directory(. SRC_LIST)
-
 file(GLOB HEADERS "*.h")
+aux_source_directory(. SRC_LIST)
 
 add_library(guodong ${SRC_LIST} ${HEADERS})
 
